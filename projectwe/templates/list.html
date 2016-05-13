@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="col-lg-12 col-md-12">
+    {% for project in project_list %}
+        <div class="col-lg-4 col-md-4">
+            <a id="project_detail_link" href="{% url 'projectwe:detail' project.id %}">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        {% if project.picture %}
+                            <img src="{{ project.picture.url }}">
+                        {% endif %}
+                    </div>
+                    <div class="panel-footer">{{ project.title }}</div>
+                </div>
+            </a>
+        </div>
+    {% endfor %}
+
+</div>
+{% endblock %}

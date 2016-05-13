@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="col-lg-10 col-md-10 col-lg-offset-1 col-md-offset-1">
+    <img src="{{ object.picture.url }}" id="project_detail_picture">
+    <h1>{{ object.title }}</h1>
+    <table>
+        <tbody>
+            <tr>
+                <td>Title:</td>
+                <td><div class="well well-sm">{{ project.title }}</div></td>
+            </tr>
+            <tr>
+                <td>Name:</td>
+                <td><div class="well well-sm">{{ project.name }}</div></td>
+            </tr>
+            <tr>
+                <td>Idea:</td>
+                <td><div class="well well-sm">{{ project.idea }}</div></td>
+            </tr>
+            <tr>
+                <td>Goal:</td>
+                <td><div class="well well-sm">{{ project.goal }}</div></td>
+            </tr>
+            <tr>
+                <td>State:</td>
+                <td><div class="well well-sm">{{ project.state }}</div></td>
+            </tr>
+            <tr>
+                <td>Next Steps:</td>
+                <td><div class="well well-sm">{{ project.next_steps }}</div></td>
+            </tr>
+            <tr>
+                <td>Preferred Skills:</td>
+                <td><div class="well well-sm">{{ project.preferred_skills }}</div></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}
