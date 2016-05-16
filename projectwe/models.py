@@ -1,11 +1,19 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User as BaseUser
+from django.core.urlresolvers import reverse
+from autoslug import AutoSlugField
 
 
 # Create your models here.
+class User(models.Model):
+    user = models.OneToOneField(BaseUser, on_delete=models.CASCADE)
+
+
 class Project(models.Model):
-    title = models.CharField(max_length=200, blank=True)
-    name = models.TextField(blank=True)
+    title = models.CharField(max_length=200)
+    slug = AutoSlugField(populate_from='title')
+    members = models.ManyToManyField(User, blank=True, related_name='menbers')
+    created_by = models.ForeignKey(User, related_name='created_by')
     idea = models.TextField(blank=True)
     goal = models.TextField(blank=True)
     state = models.TextField(blank=True)
@@ -16,7 +24,5 @@ class Project(models.Model):
     def __str__(self):
         return self.title
 
-
-class ProjectMember(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-
+    def get_absolute_url(self):
+        return reverse('projectwe:detail', kwargs={'pk': self.pk})
