@@ -12,7 +12,7 @@ class User(models.Model):
 class Project(models.Model):
     title = models.CharField(max_length=200)
     slug = AutoSlugField(populate_from='title')
-    members = models.ManyToManyField(User, blank=True, related_name='menbers')
+    members = models.ManyToManyField(User, blank=True, related_name='members')
     created_by = models.ForeignKey(User, related_name='created_by')
     idea = models.TextField(blank=True)
     goal = models.TextField(blank=True)
