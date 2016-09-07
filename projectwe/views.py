@@ -30,6 +30,6 @@ class UploadProjectView(LoginRequiredMixin, AccessMixin, generic.CreateView):
 
     def form_valid(self, form):
         # Custom Form Post Processing Here
-        form.instance.created_by = User.objects.get(user=self.request.user)
-        form.instance.members.add(User.objects.get(user=self.request.user))
+        form.instance.created_by = self.request.user
+        #form.instance.members.add(User.objects.get(user=self.request.user))
         return super(UploadProjectView, self).form_valid(form)
