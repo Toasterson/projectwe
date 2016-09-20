@@ -3,6 +3,9 @@ from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin, AccessMixin
 from .models import Project, User
 
+model = Project
+fields = ['picture', 'title', 'idea', 'goal', 'state', 'next_steps', 'preferred_skills']
+
 
 # Create your views here.
 def index(request):
@@ -23,13 +26,24 @@ class DetailView(generic.DetailView):
     template_name = 'detail.html'
 
 
-class UploadProjectView(LoginRequiredMixin, AccessMixin, generic.CreateView):
+class MembersView(generic.DetailView):
     model = Project
-    fields = ['picture', 'title', 'idea', 'goal', 'state', 'next_steps', 'preferred_skills']
+    template_name = 'members.html'
+
+
+class UploadProjectView(LoginRequiredMixin, AccessMixin, generic.CreateView):
+    model = model
+    fields = fields
     template_name_suffix = '_upload_form'
 
     def form_valid(self, form):
         # Custom Form Post Processing Here
         form.instance.created_by = self.request.user
-        #form.instance.members.add(User.objects.get(user=self.request.user))
+        # form.instance.members.add(user=self.request.user)
         return super(UploadProjectView, self).form_valid(form)
+
+
+class EditProjectView(LoginRequiredMixin, AccessMixin, generic.UpdateView):
+    model = model
+    fields = fields
+    template_name_suffix = '_edit_form'

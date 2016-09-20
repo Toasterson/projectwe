@@ -8,6 +8,9 @@ from autoslug import AutoSlugField
 class User(models.Model):
     user = models.OneToOneField(BaseUser, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.username
+
 
 class Project(models.Model):
     title = models.CharField(max_length=200)

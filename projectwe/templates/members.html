@@ -1,0 +1,21 @@
+{% extends "base_detail.html" %}
+
+{% block detail_nav %}
+<li role="presentation"><a href="{% url 'projectwe:detail' project.id %}">Details</a></li>
+<li role="presentation" class="active"><a href="{% url 'projectwe:members' project.id %}">Members</a></li>
+{% endblock %}
+
+{% block detail_content %}
+    <div class="col-md-8 col-md-offset-1">
+        <div class="panel panel-default panel-project-detail no-radius">
+            <div class="panel-heading">
+                <h3 class="panel-title">Founder:</h3>
+            </div>
+            <div class="panel-body">
+                {# TODO Make Link to profile with picture #}
+                {{ project.created_by }}
+            </div>
+        </div>
+    </div>
+    {# TODO Member List #}
+{% endblock %}

@@ -1,43 +1,59 @@
-{% extends "base.html" %}
+{% extends "base_detail.html" %}
 
-{% block content %}
-<div class="col-lg-10 col-md-10 col-lg-offset-1 col-md-offset-1" xmlns="http://www.w3.org/1999/html">
-    {% if object.picture %}
-        <img src="{{ object.picture.url }}" id="project_detail_picture">
-    {% endif %}
-    <h1>{{ object.title }}</h1>
-    </br>
-    <table>
-        <tbody>
-            <tr>
-                <td width="200">Title:</td>
-                <td><div class="well well-sm">{{ project.title|linebreaks }}</div></td>
-            </tr>
-            <tr>
-                <td>Creator:</td>
-                <td><div class="well well-sm">{{ project.created_by }}</div></td>
-            </tr>
-            <tr>
-                <td>Idea:</td>
-                <td><div class="well well-sm">{{ project.idea|linebreaks }}</div></td>
-            </tr>
-            <tr>
-                <td>Goal:</td>
-                <td><div class="well well-sm">{{ project.goal|linebreaks }}</div></td>
-            </tr>
-            <tr>
-                <td>State:</td>
-                <td><div class="well well-sm">{{ project.state|linebreaks }}</div></td>
-            </tr>
-            <tr>
-                <td>Next Steps:</td>
-                <td><div class="well well-sm">{{ project.next_steps|linebreaks }}</div></td>
-            </tr>
-            <tr>
-                <td>Preferred Skills:</td>
-                <td><div class="well well-sm">{{ project.preferred_skills|linebreaks }}</div></td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+{% block detail_nav %}
+<li role="presentation" class="active"><a href="{% url 'projectwe:detail' project.id %}">Details</a></li>
+<li role="presentation"><a href="{% url 'projectwe:members' project.id %}">Members</a></li>
+{% endblock %}
+
+{% block detail_content %}
+    <div class="col-md-8 col-md-offset-1">
+        <div class="panel panel-default panel-project-detail no-radius">
+            <div class="panel-heading">
+                <h3 class="panel-title">Idea:</h3>
+            </div>
+            <div class="panel-body">
+                {{ project.idea|linebreaks }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8 col-md-offset-1">
+        <div class="panel panel-default panel-project-detail no-radius">
+            <div class="panel-heading">
+                <h3 class="panel-title">Goals:</h3>
+            </div>
+            <div class="panel-body">
+                {{ project.goal|linebreaks }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8 col-md-offset-1">
+        <div class="panel panel-default panel-project-detail no-radius">
+            <div class="panel-heading">
+                <h3 class="panel-title">State:</h3>
+            </div>
+            <div class="panel-body">
+                {{ project.state|linebreaks }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8 col-md-offset-1">
+        <div class="panel panel-default panel-project-detail no-radius">
+            <div class="panel-heading">
+                <h3 class="panel-title">Next Steps:</h3>
+            </div>
+            <div class="panel-body">
+                {{ project.next_steps|linebreaks }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8 col-md-offset-1">
+        <div class="panel panel-default panel-project-detail no-radius">
+            <div class="panel-heading">
+                <h3 class="panel-title">Preferred Skills:</h3>
+            </div>
+            <div class="panel-body">
+                {{ project.preferred_skills|linebreaks }}
+            </div>
+        </div>
+    </div>
 {% endblock %}

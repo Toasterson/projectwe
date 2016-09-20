@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+
+{% block content %}
+<div class="col-lg-10 col-md-10 col-lg-offset-1 col-md-offset-1">
+    <div id="logo" class="col-md-1">
+    {% if object.picture %}
+        <img alt="{{ object.picture.name }}" src="{{ object.picture.url }}" id="project_detail_picture" height="100">
+    {% else %}
+        <h1>No Logo</h1>
+    {% endif %}
+    </div>
+    <div id="project_title_info" class="col-md-6 page-header">
+        <h1>{{ project.title }}</h1>
+    </div>
+    <div class="col-md-8 col-md-offset-1">
+        <ul class="nav nav-tabs">
+            <li role="presentation" class="active"><a href="#">Details</a></li>
+            <li role="presentation"><a href="#">Members</a></li>
+        </ul>
+    </div>
+    <div class="col-md-8 col-lg-8 col-md-offset-1 col-lg-offset-1 some-margin-20">
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            <button type="submit" class="no-radius flat-butt">Save</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
