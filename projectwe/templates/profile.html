@@ -1,10 +1,26 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="col-lg-10 col-md-10 col-md-offset-1 col-lg-offset-1">
+    <div class="col-lg-10 col-md-10 col-lg-offset-1 col-md-offset-1" xmlns="http://www.w3.org/1999/html">
+        <div id="logo" class="col-md-1">
         {% if profile.profile_picture %}
-            <img src="{{ profile.profile_picture.url }}" alt="{{ profile.get_display_name }}">
+            <img alt="{{ profile.profile_picture.name }}" src="{{ profile.profile_picture.url }}" id="profile_picture" height="100">
+        {% else %}
+            <h1>No Logo</h1>
         {% endif %}
-        <h2>{{ profile.get_display_name }}</h2>
+        </div>
+        <div id="user_details" class="col-md-6 page-header">
+            <h2>{{ profile.get_display_name }}</h2>
+        </div>
+        {% block controls %}
+            <div class="col-md-3">
+                {% if profile.user == request.user %}
+                <a href="{% url 'projectwe:profile_edit' profile.user.username %}"><button type="button" class="no-radius flat-butt">Edit</button></a>
+                {% endif %}
+            </div>
+        {% endblock %}
+        <div class="col-md-12 col-lg-12">
+
+        </div>
     </div>
 {% endblock %}

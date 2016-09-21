@@ -12,6 +12,7 @@ urlpatterns = [
     url(r'^project/edit/(?P<pk>[0-9]+)$', views.EditProjectView.as_view(), name='edit'),
     url(r'^project/upload', views.UploadProjectView.as_view(), name='create_project'),
     url(r'^user/(\w+)/$', views.profile, name='profile'),
+    url(r'^user/(\w+)/edit$', views.ProfileEditView.as_view(), name='profile_edit'),
     url(r'^register/$',
         views.RegistrationView.as_view(),
         name='registration_register'),

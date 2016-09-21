@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="col-lg-10 col-md-10 col-lg-offset-1 col-md-offset-1" xmlns="http://www.w3.org/1999/html">
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="flat-butt">Save</button>
+        </form>
+    </div>
+{% endblock %}
