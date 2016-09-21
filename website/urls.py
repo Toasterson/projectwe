@@ -23,7 +23,6 @@ urlpatterns = [
     url(r'^', include('projectwe.urls')),
     url(r'^admin/', admin.site.urls),
     url('^', include('django.contrib.auth.urls')),
-    url('^', include('registration.backends.simple.urls')),
 ]
 urlpatterns += staticfiles_urlpatterns()
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

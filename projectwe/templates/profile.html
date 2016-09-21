@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="col-lg-10 col-md-10 col-md-offset-1 col-lg-offset-1">
+        {% if profile.profile_picture %}
+            <img src="{{ profile.profile_picture.url }}" alt="{{ profile.get_display_name }}">
+        {% endif %}
+        <h2>{{ profile.get_display_name }}</h2>
+    </div>
+{% endblock %}

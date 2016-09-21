@@ -7,9 +7,15 @@ from autoslug import AutoSlugField
 # Create your models here.
 class User(models.Model):
     user = models.OneToOneField(BaseUser, on_delete=models.CASCADE)
+    profile_picture = models.ImageField(blank=True, upload_to='user_images')
 
     def __str__(self):
-        return self.username
+        return self.get_display_name()
+
+    def get_display_name(self):
+        if self.user.first_name and self.user.last_name:
+            return self.user.first_name + ' ' + self.user.last_name
+        return self.user.username
 
 
 class Project(models.Model):

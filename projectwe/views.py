@@ -1,7 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin, AccessMixin
-from .models import Project, User
+from .models import Project, User as Profile
+from registration.backends.simple.views import RegistrationView as BaseRegistrationView
+from django.contrib.auth import authenticate, get_user_model, login
+from registration import signals
+from django.contrib.auth.models import User
 
 model = Project
 fields = ['picture', 'title', 'idea', 'goal', 'state', 'next_steps', 'preferred_skills']
@@ -10,6 +14,26 @@ fields = ['picture', 'title', 'idea', 'goal', 'state', 'next_steps', 'preferred_
 # Create your views here.
 def index(request):
     return render(request, 'index.html')
+
+
+def profile(request, username):
+    profile = get_object_or_404(Profile.objects, user__username=username)
+    return render(request, 'profile.html', {'profile': profile})
+
+
+class RegistrationView(BaseRegistrationView):
+    def register(self, form):
+        new_user = form.save()
+        new_user = authenticate(
+            username=getattr(new_user, User.USERNAME_FIELD),
+            password=form.cleaned_data['password1']
+        )
+        login(self.request, new_user)
+        signals.user_registered.send(sender=self.__class__,
+                                     user=new_user,
+                                     request=self.request)
+        Profile.objects.create(user=new_user)
+        return new_user
 
 
 class ListView(generic.ListView):
