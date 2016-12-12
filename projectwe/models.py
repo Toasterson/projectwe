@@ -2,12 +2,14 @@ from django.db import models
 from django.contrib.auth.models import User as BaseUser
 from django.core.urlresolvers import reverse
 from autoslug import AutoSlugField
+from django_countries.fields import CountryField
 
 
 # Create your models here.
 class User(models.Model):
     user = models.OneToOneField(BaseUser, on_delete=models.CASCADE)
     profile_picture = models.ImageField(blank=True, upload_to='user_images')
+    country = CountryField()
 
     def __str__(self):
         return self.get_display_name()
@@ -21,8 +23,8 @@ class User(models.Model):
 class Project(models.Model):
     title = models.CharField(max_length=200)
     slug = AutoSlugField(populate_from='title')
-    members = models.ManyToManyField(BaseUser, blank=True, related_name='project')
-    created_by = models.ForeignKey(BaseUser, related_name='created_by')
+    members = models.ManyToManyField(User, blank=True, related_name='member_of_projects')
+    created_by = models.ForeignKey(User, related_name='founded_projects')
     idea = models.TextField(blank=True)
     goal = models.TextField(blank=True)
     state = models.TextField(blank=True)

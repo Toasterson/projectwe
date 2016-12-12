@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crispy_forms',
     'registration_bootstrap',
-    'bootstrap3'
+    'bootstrap3',
+    'django_countries'
 ]
 
 MIDDLEWARE_CLASSES = [

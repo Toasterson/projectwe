@@ -8,8 +8,8 @@ from registration import signals
 from django.contrib.auth.models import User
 from .forms import ProfileEditForm
 
-model = Project
-fields = ['picture', 'title', 'idea', 'goal', 'state', 'next_steps', 'preferred_skills']
+project_class = Project
+project_fields = ['picture', 'title', 'idea', 'goal', 'state', 'next_steps', 'preferred_skills']
 
 
 # Create your views here.
@@ -18,8 +18,8 @@ def index(request):
 
 
 def profile(request, username):
-    profile = get_object_or_404(Profile.objects, user__username=username)
-    return render(request, 'profile.html', {'profile': profile})
+    profile_instance = get_object_or_404(Profile.objects, user__username=username)
+    return render(request, 'profile.html', {'profile': profile_instance})
 
 
 class ProfileEditView(LoginRequiredMixin, AccessMixin, generic.FormView):
@@ -33,13 +33,14 @@ class ProfileEditView(LoginRequiredMixin, AccessMixin, generic.FormView):
         """
         if self.request.user.username != args[0]:
             return redirect('/')
-        profile = Profile.objects.get(user=request.user)
+        profile_instance = Profile.objects.get(user=request.user)
         self.initial = {
             'username': self.request.user.username,
             'firstname': self.request.user.first_name,
             'lastname': self.request.user.last_name,
             'email': self.request.user.email,
-            'profile_picture': profile.profile_picture,
+            'profile_picture': profile_instance.profile_picture,
+            'country': profile_instance.country
         }
         return super(ProfileEditView, self).get(request, args, kwargs)
 
@@ -47,13 +48,14 @@ class ProfileEditView(LoginRequiredMixin, AccessMixin, generic.FormView):
         self.success_url += self.request.user.username
         # This method is called when valid form data has been POSTed.
         # It should return an HttpResponse.
-        profile = Profile.objects.get(user=self.request.user)
+        profile_instance = Profile.objects.get(user=self.request.user)
         user = User.objects.get(id=self.request.user.id)
-        profile.profile_picture = form.cleaned_data['profile_picture']
+        profile_instance.profile_picture = form.cleaned_data['profile_picture']
+        profile_instance.country = form.cleaned_data['country']
         user.first_name = form.cleaned_data['firstname']
         user.last_name = form.cleaned_data['lastname']
         user.email = form.cleaned_data['email']
-        profile.save()
+        profile_instance.save()
         user.save()
         return super(ProfileEditView, self).form_valid(form)
 
@@ -84,28 +86,28 @@ class ListView(generic.ListView):
 
 
 class DetailView(generic.DetailView):
-    model = model
+    model = project_class
     template_name = 'detail.html'
 
 
 class MembersView(generic.DetailView):
-    model = model
+    model = project_class
     template_name = 'members.html'
 
 
 class UploadProjectView(LoginRequiredMixin, AccessMixin, generic.CreateView):
-    model = model
-    fields = fields
+    model = project_class
+    fields = project_fields
     template_name_suffix = '_upload_form'
 
     def form_valid(self, form):
         # Custom Form Post Processing Here
-        form.instance.created_by = self.request.user
-        # form.instance.members.add(user=self.request.user)
+        user_profile = Profile.objects.get(user=self.request.user)
+        form.instance.created_by = user_profile
         return super(UploadProjectView, self).form_valid(form)
 
 
 class EditProjectView(LoginRequiredMixin, AccessMixin, generic.UpdateView):
-    model = model
-    fields = fields
+    model = project_class
+    fields = project_fields
     template_name_suffix = '_edit_form'

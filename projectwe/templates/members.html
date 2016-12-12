@@ -12,10 +12,19 @@
                 <h3 class="panel-title">Founder:</h3>
             </div>
             <div class="panel-body">
-                {# TODO Make Link to profile with picture #}
-                {{ project.created_by }}
+                <img src="{{ project.created_by.country.flag }}"> <a href="{% url 'projectwe:profile' project.created_by.user.username %}">{{ project.created_by.get_display_name }}</a>
+            </div>
+        </div>
+
+        <div class="panel panel-default panel-project-detail no-radius">
+            <div class="panel-heading">
+                <h3 class="panel-title">Members:</h3>
+            </div>
+            <div class="panel-body">
+                {% for member in project.members.all %}
+                    <img src="{{ member.country.flag }}"> <a href="{% url 'projectwe:profile' member.user.username %}">{{ member.get_display_name }}</a>
+                {% endfor %}
             </div>
         </div>
     </div>
-    {# TODO Member List #}
 {% endblock %}

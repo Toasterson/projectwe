@@ -14,9 +14,11 @@
     </div>
     {% block controls %}
         <div class="col-md-3">
-            {% if user == project.created_by %}
+            {% if user == project.created_by.user %}
             <a href="{% url 'projectwe:edit' project.id %}"><button type="button" class="no-radius flat-butt">Edit</button></a>
+            {# TODO add Invite Member Control for creator #}
             {% endif %}
+            {# TODO Add Join Project Button #}
         </div>
     {% endblock %}
     <div class="col-md-8 col-md-offset-1">
