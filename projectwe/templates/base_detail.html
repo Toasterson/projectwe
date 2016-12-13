@@ -18,7 +18,9 @@
             <a href="{% url 'projectwe:edit' project.id %}"><button type="button" class="no-radius flat-butt">Edit</button></a>
             {# TODO add Invite Member Control for creator #}
             {% endif %}
-            {# TODO Add Join Project Button #}
+            {% if user.is_authenticated and not is_member_or_founder %}
+            <a href="{% url 'projectwe:join_project' project.id %}"><button type="button" class="no-radius flat-butt">Join</button></a>
+            {% endif %}
         </div>
     {% endblock %}
     <div class="col-md-8 col-md-offset-1">

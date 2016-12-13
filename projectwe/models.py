@@ -7,7 +7,7 @@ from django_countries.fields import CountryField
 
 # Create your models here.
 class User(models.Model):
-    user = models.OneToOneField(BaseUser, on_delete=models.CASCADE)
+    user = models.OneToOneField(BaseUser, on_delete=models.CASCADE, related_name='profile')
     profile_picture = models.ImageField(blank=True, upload_to='user_images')
     country = CountryField()
 
@@ -37,3 +37,12 @@ class Project(models.Model):
 
     def get_absolute_url(self):
         return reverse('projectwe:detail', kwargs={'pk': self.pk})
+
+    def is_member_or_founder(self, profile):
+        if self.created_by == profile:
+            return True
+
+        if self.members.filter(pk=profile.id).exists():
+            return True
+
+        return False

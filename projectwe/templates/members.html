@@ -23,6 +23,9 @@
             <div class="panel-body">
                 {% for member in project.members.all %}
                     <img src="{{ member.country.flag }}"> <a href="{% url 'projectwe:profile' member.user.username %}">{{ member.get_display_name }}</a>
+                    {% if member.user == user %}
+                        <a class="col-md-offset-8" href="{% url 'projectwe:leave_project' project.id %}"><button type="button" class="no-radius flat-butt">Leave</button></a>
+                    {% endif %}
                 {% endfor %}
             </div>
         </div>
