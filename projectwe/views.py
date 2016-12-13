@@ -21,6 +21,9 @@ def profile(request, username):
 
 
 def join_project(request, pk):
+    # I am not even going to bother with unauthenticated requests
+    if not request.user.is_authenticated():
+        redirect('index')
     project = Project.objects.get(pk=pk)
     profile_instance = Profile.objects.get(user=request.user)
     if not project.is_member_or_founder(profile_instance):
@@ -30,6 +33,9 @@ def join_project(request, pk):
 
 
 def leave_project(request, pk):
+    # I am not even going to bother with unauthenticated requests
+    if not request.user.is_authenticated():
+        redirect('index')
     project = Project.objects.get(pk=pk)
     profile_instance = Profile.objects.get(user=request.user)
     if project.is_member_or_founder(profile_instance):
@@ -92,7 +98,10 @@ class DetailView(generic.DetailView):
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
         context = self.get_context_data(object=self.object)
-        context['is_member_or_founder'] = self.object.is_member_or_founder(request.user.profile)
+        if request.user.is_authenticated():
+            context['is_member_or_founder'] = self.object.is_member_or_founder(request.user.profile)
+        else:
+            context['is_member_or_founder'] = False
         return self.render_to_response(context)
 
 
@@ -103,7 +112,10 @@ class MembersView(generic.DetailView):
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
         context = self.get_context_data(object=self.object)
-        context['is_member_or_founder'] = self.object.is_member_or_founder(request.user.profile)
+        if request.user.is_authenticated():
+            context['is_member_or_founder'] = self.object.is_member_or_founder(request.user.profile)
+        else:
+            context['is_member_or_founder'] = False
         return self.render_to_response(context)
 
 
